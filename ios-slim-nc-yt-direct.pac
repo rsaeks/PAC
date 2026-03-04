@@ -17,5 +17,24 @@ function FindProxyForURL(url, host)
 	if (rxG.test(host)) return proxy;
 	if (rxG2.test(host)) return proxy;
 
+	// YouTube
+	
+	// Send Embedded Youtube Videos directly though Internet Connection
+	if (shExpMatch(host, "www.youtube.com/embed*")) return DIRECT;
+	
+	// Send videos using the Youtubeeducation domain directly through Internet Connection
+	if (shExpMatch(host, "youtubeeducation.com")) return DIRECT;
+	if (shExpMatch(host, "*.youtubeeducation.com")) return DIRECT;
+	
+	// Send videos using the youtube-nocookie domain directly through Internet Connection.
+	if (shExpMatch(host, "youtube-nocookie.com")) return DIRECT;
+	if (shExpMatch(host, "*.youtube-nocookie.com")) return DIRECT;
+	
+	// Other Youtube videos should go though the Proxy. This should mean they do not playback unless "educational"
+	if (shExpMatch(host, "m.youtube.com")) return proxy;
+	if (shExpMatch(host, "www.youtube.com/")) return proxy;
+
+	// Catchall so domains not matching above
+	
 	return "DIRECT";
 }
